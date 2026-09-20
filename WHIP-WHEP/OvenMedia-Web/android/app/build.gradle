@@ -1,0 +1,87 @@
+
+
+plugins {
+	id 'com.android.application'
+}
+
+def getSwvProperties() {
+	def properties = new Properties()
+	def propertiesFile = file('src/main/assets/swv.properties')
+	if (propertiesFile.exists()) {
+		properties.load(propertiesFile.newDataInputStream())
+	} else {
+		// Fallback or error if the file is missing
+		throw new GradleException("swv.properties file not found in app/src/main/assets/")
+	}
+	return properties
+}
+def swvProps = getSwvProperties()
+
+android {
+	namespace swvProps.getProperty('build.application.id', 'com.qjmarriage.app')
+	compileSdk swvProps.getProperty('build.sdk.compile', '36').toInteger()
+
+	defaultConfig {
+		applicationId swvProps.getProperty('build.application.id', 'com.qjmarriage.app')
+		minSdk swvProps.getProperty('build.sdk.min', '24').toInteger()
+		targetSdk swvProps.getProperty('build.sdk.compile', '36').toInteger()
+		versionCode swvProps.getProperty('build.version.code', '1').toInteger()
+		versionName swvProps.getProperty('build.version.name', '1.0')
+		multiDexEnabled true // enable if method count exceeds 64K
+	}
+
+	buildTypes {
+		release {
+			minifyEnabled true
+			shrinkResources true
+			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+		}
+		debug {
+			minifyEnabled false
+		}
+	}
+
+	buildFeatures {
+		buildConfig true
+	}
+
+	compileOptions {
+		sourceCompatibility JavaVersion.VERSION_17
+		targetCompatibility JavaVersion.VERSION_17
+	}
+
+	// Optional: If you need to configure flavors
+	// productFlavors {
+	// }
+}
+
+dependencies {
+	testImplementation 'junit:junit:4.13.2'
+	androidTestImplementation 'androidx.test.espresso:espresso-core:3.7.0'
+
+	implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+	implementation 'androidx.multidex:multidex:2.0.1'
+
+	// Firebase push (initialized only after privacy consent)
+	implementation 'com.google.firebase:firebase-messaging:25.1.1'
+
+	implementation 'com.google.android.material:material:1.14.0'
+
+	implementation 'androidx.core:core-splashscreen:1.2.0'
+	implementation 'androidx.constraintlayout:constraintlayout:2.2.2'
+	implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.2.0'
+	implementation 'androidx.appcompat:appcompat:1.7.1'
+	implementation 'androidx.browser:browser:1.10.0'
+	implementation 'androidx.work:work-runtime:2.11.2'
+
+	// Plugins
+	implementation 'com.journeyapps:zxing-android-embedded:4.3.0' // ZXing library for QR code scanning
+	implementation 'androidx.biometric:biometric:1.1.0' // Biometric authentication library
+}
+
+if (file('google-services.json').exists()) {
+    apply plugin: 'com.google.gms.google-services'
+} else {
+    println "swv-fcm-sync: google-services.json not found. Skipping Firebase Configuration."
+}

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  允许局域网 HTTP 联调 OME（开发）。
+  生产环境请为 H5 / OME 配置 HTTPS，并收紧 cleartext 域名。
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

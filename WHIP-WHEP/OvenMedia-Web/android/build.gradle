@@ -1,0 +1,29 @@
+ext {
+	targetCompatibility = 1.8
+}
+
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+	repositories {
+		// Tencent Cloud Maven mirror (proxies Google + Maven Central)
+		maven { url 'https://mirrors.cloud.tencent.com/nexus/repository/maven-public/' }
+		google()
+		mavenCentral()
+	}
+    dependencies {
+        classpath 'com.android.tools.build:gradle:9.0.0'
+		classpath 'com.google.gms:google-services:4.5.0'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+	repositories {
+		// Tencent Cloud Maven mirror (proxies Google + Maven Central)
+		maven { url 'https://mirrors.cloud.tencent.com/nexus/repository/maven-public/' }
+		google()
+		mavenCentral()
+	}
+}

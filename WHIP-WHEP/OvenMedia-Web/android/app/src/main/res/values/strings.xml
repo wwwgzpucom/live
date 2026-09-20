@@ -1,0 +1,59 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">齐家婚姻</string>
+	<string name="app_desc">齐家婚姻客户端</string>
+    <string name="image_view">图片预览</string>
+	<string name="loading">加载中</string>
+	<string name="loading2" tools:ignore="TypographyEllipsis">加载中...</string>
+	<string name="loc_fail">定位失败</string>
+    <string name="loc_fail_text">请检查 GPS 定位是否开启。</string>
+    <string name="loc_fail_more">请确认已开启 GPS，并在定位设置中选择高精度模式。</string>
+    <string name="loc_perm">需要定位权限</string>
+    <string name="loc_perm_text">请允许本应用获取您的位置信息。</string>
+    <string name="loc_perm_more">开启定位权限可获得更好的使用体验。</string>
+	<string name="dl_downloading" tools:ignore="TypographyEllipsis">正在下载文件...</string>
+	<string name="dl_downloading2">正在下载文件</string>
+	<string name="fl_chooser">选择文件</string>
+	<string name="went_wrong">出错了</string>
+	<string name="check_connection">请检查网络连接</string>
+	<string name="share_w_friends">分享给好友</string>
+	<string name="notification_channel_name">重要通知</string>
+	<string name="notification_channel_desc">接收最新重要提醒</string>
+	<string name="exit">退出</string>
+	<string name="open">打开</string>
+	<string name="close">关闭</string>
+	<string name="connecting" tools:ignore="TypographyEllipsis">连接中...</string>
+	<string name="exit_title">确认退出</string>
+	<string name="exit_subtitle">确定要退出应用吗？</string>
+	<string name="print_complete">打印完成</string>
+	<string name="print_failed">打印失败</string>
+	<string name="msg_no_internet">当前无网络连接</string>
+	<string name="print_error">打印出错</string>
+    <string name="loading_app" tools:ignore="TypographyEllipsis">正在启动...</string>
+    <string name="authenticate">身份验证</string>
+	<string name="home">首页</string>
+	<string name="dark_mode">深色模式</string>
+	<string name="rate_title">给个好评</string>
+	<string name="rate_message">如果您喜欢使用本应用，能否花一点时间给个评分？感谢支持！</string>
+	<string name="rate_now">立即评分</string>
+	<string name="rate_later">稍后再说</string>
+	<string name="rate_no_thanks">不用了</string>
+	<string name="auth_required">需要验证身份</string>
+	<string name="auth_subtitle">请验证后继续使用</string>
+	<string name="storage_permission_required">下载文件需要存储权限</string>
+	<string name="live_media_permission_required">直播需要相机与麦克风权限，请在系统设置中允许后重试</string>
+	<string name="no_email_app">未找到邮件应用</string>
+	<string name="no_dialer_app">未找到拨号应用</string>
+	<string name="notification_permission_required">请先授予通知权限后再试</string>
+	<string name="invalid_uri">链接无效，操作失败</string>
+	<string name="scan_prompt">请扫描条码或二维码</string>
+	<string name="share_file_via">分享文件</string>
+	<string name="ssl_error">安全连接错误</string>
+	<string name="privacy_title">用户协议与隐私政策</string>
+	<string name="privacy_message">欢迎使用齐家婚姻。为了向您提供附近嘉宾推荐等服务，我们需要在您同意后才会获取位置信息。请先阅读下方协议，同意后继续使用。若不同意，将退出应用。</string>
+	<string name="privacy_agree">同意并继续</string>
+	<string name="privacy_disagree">不同意并退出</string>
+	<string name="privacy_user_agreement">《用户协议》</string>
+	<string name="privacy_policy">《隐私政策》</string>
+	<string name="privacy_link_agreement">https://qjmarriage.com/m/about.php?t=agreement</string>
+	<string name="privacy_link_policy">https://qjmarriage.com/m/about.php?t=clause</string>
+</resources>
