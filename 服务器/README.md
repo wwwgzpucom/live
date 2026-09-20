@@ -1,29 +1,24 @@
 # 服务器
 
-本目录用于存放**自建直播媒体服务器**相关内容（部署脚本、配置、运维说明）。
+本目录存放**自建直播媒体服务器**相关内容。
 
-## 推荐方案（任选其一）
+## 子目录
 
-| 项目 | 仓库 | 说明 |
-|------|------|------|
-| SRS | https://github.com/ossrs/srs | 国内常用，支持 WebRTC WHIP/WHEP |
-| ZLMediaKit | https://github.com/ZLMediaKit/ZLMediaKit | 全协议，C++ 高性能 |
-| OvenMediaEngine | https://github.com/OvenMediaLabs/OvenMediaEngine | 超低延迟，配套 OvenPlayer |
+| 文件夹 | 说明 | 搭建文档 |
+|--------|------|----------|
+| [SRS](./SRS) | OSSRS，WHIP/WHEP 友好，推荐与 Android SDK 联调 | [搭建文档](./SRS/搭建文档.md) |
+| [ZLM](./ZLM) | ZLMediaKit，全协议高性能 | [搭建文档](./ZLM/搭建文档.md) |
+| [OME](./OME) | OvenMediaEngine，超低延迟 | [搭建文档](./OME/搭建文档.md) |
 
-## 与 Android SDK 联调
+每个子目录均包含：
 
-客户端在 `../SDK`。典型 SRS 地址示例：
+- `搭建文档.md` — 安装、端口、WHIP/WHEP 地址、对接 SDK、排错
+- `docker-compose.yml` — Docker 一键启动示例
 
-```text
-WHIP: http://<host>:1985/rtc/v1/whip/?app=live&stream=demo
-WHEP: http://<host>:1985/rtc/v1/whep/?app=live&stream=demo
-```
+## 与 Android SDK 联调建议
 
-真机请使用局域网 IP；跨网需配置 STUN/TURN。
+1. 优先起 **SRS** 或 **ZLM**（WHEP 拉流路径清晰）
+2. 手机与服务器同一局域网，填写真实局域网 IP
+3. 放行 WebRTC 媒体 UDP 端口（SRS: `8000`；ZLM: `8000`；OME: `10000–10009`）
 
-## 后续可放
-
-- Docker Compose 一键启动
-- `srs.conf` / ZLM `config.ini` 示例
-- Nginx 反代与 HTTPS 证书说明
-- 鉴权 / Token 校验钩子
+SDK 工程见仓库根目录 [`../SDK`](../SDK)。
