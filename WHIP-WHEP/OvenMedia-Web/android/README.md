@@ -23,7 +23,7 @@
 | `mediaPlaybackRequiresUserGesture=false` | 便于观众端自动播放 |
 | 明文 HTTP（联调） | `network_security_config` + `usesCleartextTraffic`（生产请上 HTTPS） |
 | JS Bridge | `AndroidInterface.requestLiveMediaPermissions` / `setKeepScreenOn` / `hasLiveMediaPermissions` |
-| 外链白名单 | `external.url.exception.list` 可填 OME 域名，避免被踢到系统浏览器 |
+| 外链白名单 | `external.url.exception.list` 可填 OME 域名；且 `feature.open.external.urls=false`，**始终留在壳内** |
 
 ## H5 调用示例
 
