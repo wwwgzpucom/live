@@ -22,4 +22,5 @@ live/
 ## 怎么选
 
 - **先做浏览器直播** → [`WHIP-WHEP/OvenMedia-Web`](./WHIP-WHEP/OvenMedia-Web)
+- **安卓 App 套网页直播（当前产品方案）** → [`安卓访问网页端方案`](./WHIP-WHEP/OvenMedia-Web/安卓访问网页端方案.md)
 - **跟踪下一代协议** → [`MoQ`](./MoQ)
