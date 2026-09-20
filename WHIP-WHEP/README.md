@@ -5,22 +5,21 @@
 | 项 | 说明 |
 |----|------|
 | 方向 | **当下最先进且可落地** |
-| 协议 | **WHIP + WHEP**（基于 WebRTC） |
-| 推流 | **WHIP**（RFC 9725，已定稿） |
-| 拉流 | **WHEP**（IETF 草案，已广泛试用） |
-| 能力 | 标准化推流入口 / 拉流出口，**亚秒级**延迟 |
+| 协议 | **WHIP + WHEP**（基于 WebRTC）及 OvenMedia 官方 Web 栈 |
+| 能力 | 标准化推流 / 低延迟观看；Web 与后续移动端工程资料 |
 
 ## 本目录
 
 | 文件夹 | 说明 |
 |--------|------|
-| [SDK](./SDK) | Android 推拉一体 SDK（WHIP 推流 + WHEP 拉流）及 Demo |
-| [服务器](./服务器) | 自建媒体服务器：SRS / ZLM / OME 搭建文档与 Docker Compose |
+| [**OvenMedia-Web**](./OvenMedia-Web) | **官方 Web 三件套**：OvenLiveKit + OvenPlayer + OvenMediaEngine（先做浏览器，不含安卓） |
+| [SDK](./SDK) | Android 推拉一体 SDK（另述） |
+| [服务器](./服务器) | SRS / ZLM / OME 分目录搭建与 Docker Compose |
 
-## 推荐联调
+## 推荐阅读顺序（Web）
 
-1. 按 [服务器/SRS/搭建文档.md](./服务器/SRS/搭建文档.md) 或 [服务器/ZLM/搭建文档.md](./服务器/ZLM/搭建文档.md) 起源站  
-2. Android Studio 打开 [SDK](./SDK) 运行 Demo  
-3. 填写 WHIP / WHEP 地址联调
+1. 打开 [`OvenMedia-Web`](./OvenMedia-Web) 了解三件套  
+2. 按 [`OvenMedia-Web/搭建文档.md`](./OvenMedia-Web/搭建文档.md) 跑通：LiveKit 推流 → OME → OvenPlayer  
+3. 服务器细节可对照 [`服务器/OME`](./服务器/OME)
 
-MoQ 预研见 [`../MoQ`](../MoQ)。产品主路径以本目录为准。
+MoQ 预研见 [`../MoQ`](../MoQ)。
