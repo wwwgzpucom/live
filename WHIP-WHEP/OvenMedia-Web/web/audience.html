@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>观众观看</title>
+  <link rel="stylesheet" href="./common.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>观众观看</h1>
+      <p>OvenPlayer ← OME（WebRTC / LL-HLS）</p>
+    </header>
+
+    <div class="video-box">
+      <div id="player"></div>
+    </div>
+
+    <div class="panel">
+      <p class="status" id="meta"></p>
+      <div class="row">
+        <button class="btn" id="btnPlay" type="button">播放</button>
+        <button class="btn secondary" id="btnMode" type="button">切换 LL-HLS</button>
+      </div>
+      <p class="status" id="status">未播放</p>
+      <div class="nav">
+        <a class="btn secondary" href="./index.html">返回入口</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/ovenplayer@latest/dist/ovenplayer.js"></script>
+  <script src="./config.js"></script>
+  <script>
+    const metaEl = document.getElementById("meta");
+    const statusEl = document.getElementById("status");
+    const btnPlay = document.getElementById("btnPlay");
+    const btnMode = document.getElementById("btnMode");
+
+    const stream = LiveUrls.streamName();
+    const q = new URLSearchParams(location.search);
+    let mode = (q.get("mode") || "webrtc").toLowerCase();
+    if (mode !== "llhls" && mode !== "webrtc") mode = "webrtc";
+
+    let player = null;
+
+    function setStatus(text, cls) {
+      statusEl.textContent = text;
+      statusEl.className = "status" + (cls ? " " + cls : "");
+    }
+
+    function currentSource() {
+      if (mode === "llhls") {
+        return { type: "llhls", file: LiveUrls.llhls(stream), label: "llhls" };
+      }
+      return { type: "webrtc", file: LiveUrls.webrtcPlay(stream), label: "webrtc" };
+    }
+
+    function refreshMeta() {
+      const src = currentSource();
+      metaEl.textContent = `stream=${stream}\nmode=${mode}\nurl=${src.file}`;
+      btnMode.textContent = mode === "webrtc" ? "切换 LL-HLS" : "切换 WebRTC";
+    }
+
+    function play() {
+      const src = currentSource();
+      refreshMeta();
+      setStatus("加载中…");
+
+      if (player) {
+        try { player.remove(); } catch (_) {}
+        player = null;
+      }
+
+      player = OvenPlayer.create("player", {
+        autoStart: true,
+        autoFallback: true,
+        controls: true,
+        mute: false,
+        sources: [src],
+      });
+
+      player.on("error", (err) => {
+        console.error(err);
+        setStatus("播放错误: " + JSON.stringify(err), "err");
+      });
+      player.on("ready", () => setStatus("播放中 (" + mode + ")", "ok"));
+      player.on("stateChanged", (data) => {
+        if (data && data.newstate) setStatus("状态: " + data.newstate + " (" + mode + ")");
+      });
+    }
+
+    btnPlay.addEventListener("click", play);
+    btnMode.addEventListener("click", () => {
+      mode = mode === "webrtc" ? "llhls" : "webrtc";
+      play();
+    });
+
+    refreshMeta();
+    // App 内进入观众页可直接播
+    play();
+  </script>
+</body>
+</html>
