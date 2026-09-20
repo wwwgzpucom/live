@@ -26,6 +26,7 @@ OvenLiveKit-Web  ──WHIP──► OvenMediaEngine ──WebRTC/LLHLS──►
 ## 文档
 
 - [搭建与联调](./搭建文档.md) — Docker 起 OME、OvenLiveKit 推流、OvenPlayer 播放
+- [**web/**](./web/) — **网页端 H5 骨架**（入口 / 主播 / 观众）
 - [**安卓访问网页端方案**](./安卓访问网页端方案.md) — App 用 WebView 打开 H5
 - [**android/**](./android/) — 齐家婚姻客户端（已改造：媒体权限 / getUserMedia / JS Bridge）
 - 服务器端口与 compose 也可对照：[`../服务器/OME`](../服务器/OME)
