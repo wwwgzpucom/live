@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>主播开播</title>
+  <link rel="stylesheet" href="./common.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>主播开播</h1>
+      <p>OvenLiveKit → WHIP → OME</p>
+    </header>
+
+    <div class="video-box">
+      <video id="preview" playsinline muted autoplay></video>
+    </div>
+
+    <div class="panel">
+      <p class="status" id="meta"></p>
+      <div class="row">
+        <button class="btn" id="btnStart" type="button">开始推流</button>
+        <button class="btn danger" id="btnStop" type="button" disabled>停止</button>
+      </div>
+      <p class="status" id="status">未推流</p>
+      <div class="nav">
+        <a class="btn secondary" href="./index.html">返回入口</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/ovenlivekit@1.5.8/dist/OvenLiveKit.min.js"></script>
+  <script src="./config.js"></script>
+  <script>
+    const preview = document.getElementById("preview");
+    const statusEl = document.getElementById("status");
+    const metaEl = document.getElementById("meta");
+    const btnStart = document.getElementById("btnStart");
+    const btnStop = document.getElementById("btnStop");
+
+    const stream = LiveUrls.streamName();
+    const whipUrl = LiveUrls.whip(stream);
+    metaEl.textContent = `stream=${stream}\nWHIP=${whipUrl}`;
+
+    let kit = null;
+    let streaming = false;
+
+    function setStatus(text, cls) {
+      statusEl.textContent = text;
+      statusEl.className = "status" + (cls ? " " + cls : "");
+    }
+
+    function nativeKeepScreen(on) {
+      try {
+        if (window.AndroidInterface && AndroidInterface.setKeepScreenOn) {
+          AndroidInterface.setKeepScreenOn(!!on);
+        }
+      } catch (_) {}
+    }
+
+    function nativeRequestPerms() {
+      try {
+        if (window.AndroidInterface && AndroidInterface.requestLiveMediaPermissions) {
+          AndroidInterface.requestLiveMediaPermissions(true, true);
+        }
+      } catch (_) {}
+    }
+
+    async function start() {
+      btnStart.disabled = true;
+      setStatus("申请权限 / 采集中…");
+      nativeRequestPerms();
+      nativeKeepScreen(true);
+
+      try {
+        if (kit) {
+          try { kit.remove(); } catch (_) {}
+          kit = null;
+        }
+        kit = OvenLiveKit.create({
+          callbacks: {
+            error: function (err) {
+              console.error(err);
+              setStatus("错误: " + (err && err.message ? err.message : String(err)), "err");
+            },
+          },
+        });
+
+        // 预览：部分版本通过 inputStream / attach
+        const streamObj = await kit.getUserMedia({
+          audio: true,
+          video: {
+            facingMode: "user",
+            width: { ideal: 720 },
+            height: { ideal: 1280 },
+          },
+        });
+
+        const media = streamObj || (kit.inputStream || kit.getMediaStream && kit.getMediaStream());
+        if (media && preview.srcObject !== media) {
+          preview.srcObject = media;
+        }
+
+        setStatus("连接 WHIP…");
+        await kit.startStreaming(whipUrl);
+        streaming = true;
+        btnStop.disabled = false;
+        setStatus("推流中", "ok");
+      } catch (e) {
+        console.error(e);
+        setStatus("推流失败: " + (e && e.message ? e.message : String(e)), "err");
+        btnStart.disabled = false;
+        nativeKeepScreen(false);
+      }
+    }
+
+    function stop() {
+      try {
+        if (kit) {
+          if (typeof kit.stopStreaming === "function") kit.stopStreaming();
+          if (typeof kit.remove === "function") kit.remove();
+        }
+      } catch (_) {}
+      kit = null;
+      streaming = false;
+      preview.srcObject = null;
+      btnStart.disabled = false;
+      btnStop.disabled = true;
+      nativeKeepScreen(false);
+      setStatus("已停止");
+    }
+
+    btnStart.addEventListener("click", start);
+    btnStop.addEventListener("click", stop);
+    window.addEventListener("pagehide", stop);
+  </script>
+</body>
+</html>
