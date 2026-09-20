@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>直播入口</title>
+  <link rel="stylesheet" href="./common.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>OvenMedia 直播入口</h1>
+      <p>安卓壳 / 浏览器共用。先改 <code>config.js</code> 里的 OME 地址。</p>
+    </header>
+
+    <div class="panel">
+      <label for="stream">房间 / 流名</label>
+      <input id="stream" type="text" value="demo" autocomplete="off" />
+
+      <label for="mode">观看方式（观众页）</label>
+      <select id="mode">
+        <option value="webrtc">WebRTC（低延迟）</option>
+        <option value="llhls">LL-HLS（更易扩规模）</option>
+      </select>
+
+      <div class="nav">
+        <a class="btn" id="goHost" href="#">我是主播</a>
+        <a class="btn secondary" id="goAudience" href="#">我是观众</a>
+      </div>
+    </div>
+
+    <p class="status" id="hint"></p>
+  </div>
+
+  <script src="./config.js"></script>
+  <script>
+    const streamInput = document.getElementById("stream");
+    const modeSelect = document.getElementById("mode");
+    const hint = document.getElementById("hint");
+
+    const q = new URLSearchParams(location.search);
+    if (q.get("stream") || q.get("room") || q.get("id")) {
+      streamInput.value = LiveUrls.streamName();
+    }
+
+    function build(page, role) {
+      const stream = encodeURIComponent(streamInput.value.trim() || LIVE_CONFIG.defaultStream);
+      const mode = modeSelect.value;
+      return `./${page}?stream=${stream}&role=${role}&mode=${mode}`;
+    }
+
+    document.getElementById("goHost").addEventListener("click", (e) => {
+      e.preventDefault();
+      location.href = build(LIVE_CONFIG.hostPage, "host");
+    });
+    document.getElementById("goAudience").addEventListener("click", (e) => {
+      e.preventDefault();
+      location.href = build(LIVE_CONFIG.audiencePage, "audience");
+    });
+
+    hint.textContent =
+      `OME: ${LIVE_CONFIG.omeHost}:${LIVE_CONFIG.omeHttpPort} / app=${LIVE_CONFIG.app}`;
+
+    // 深链：?role=host|audience 直接进入
+    const role = LiveUrls.role();
+    if (role === "host") location.replace(build(LIVE_CONFIG.hostPage, "host"));
+    if (role === "audience" || role === "viewer") location.replace(build(LIVE_CONFIG.audiencePage, "audience"));
+  </script>
+</body>
+</html>
