@@ -1,0 +1,14 @@
+services:
+  ome:
+    image: ovenmedialabs/ovenmediaengine:latest
+    container_name: ome
+    restart: unless-stopped
+    environment:
+      OME_HOST_IP: ${OME_HOST_IP:?请设置环境变量 OME_HOST_IP 为服务器可达 IP}
+    ports:
+      - "1935:1935"
+      - "9999:9999/udp"
+      - "9000:9000"
+      - "3333:3333"
+      - "3478:3478"
+      - "10000-10009:10000-10009/udp"
