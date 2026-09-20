@@ -16,10 +16,11 @@
 | [SDK](./SDK) | Android 推拉一体 SDK（另述） |
 | [服务器](./服务器) | SRS / ZLM / OME 分目录搭建与 Docker Compose |
 
-## 推荐阅读顺序（Web）
+## 推荐阅读顺序
 
-1. 打开 [`OvenMedia-Web`](./OvenMedia-Web) 了解三件套  
-2. 按 [`OvenMedia-Web/搭建文档.md`](./OvenMedia-Web/搭建文档.md) 跑通：LiveKit 推流 → OME → OvenPlayer  
-3. 服务器细节可对照 [`服务器/OME`](./服务器/OME)
+1. 打开 [`OvenMedia-Web`](./OvenMedia-Web) 了解官方 Web 三件套  
+2. 按 [`OvenMedia-Web/搭建文档.md`](./OvenMedia-Web/搭建文档.md) 跑通浏览器推拉流  
+3. 产品路径：[`OvenMedia-Web/安卓访问网页端方案.md`](./OvenMedia-Web/安卓访问网页端方案.md)（安卓壳 + H5 直播）  
+4. 服务器细节对照 [`服务器/OME`](./服务器/OME)
 
 MoQ 预研见 [`../MoQ`](../MoQ)。
