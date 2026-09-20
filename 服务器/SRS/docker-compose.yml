@@ -1,0 +1,14 @@
+services:
+  srs:
+    image: ossrs/srs:5
+    container_name: srs
+    restart: unless-stopped
+    environment:
+      # 必填：客户端可达的 IP（局域网或公网）
+      CANDIDATE: ${CANDIDATE:?请设置环境变量 CANDIDATE 为服务器可达 IP}
+    ports:
+      - "1935:1935"
+      - "1985:1985"
+      - "8080:8080"
+      - "8000:8000/udp"
+    command: ["objs/srs", "-c", "conf/rtc.conf"]
